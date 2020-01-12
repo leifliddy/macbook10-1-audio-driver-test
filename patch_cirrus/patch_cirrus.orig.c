@@ -305,7 +305,6 @@ static void init_digital_coef(struct hda_codec *codec)
 static int cs_init(struct hda_codec *codec)
 {
 	struct cs_spec *spec = codec->spec;
-	printk("patch._cirrus: cs_init begin");
 
 	if (spec->vendor_nid == CS420X_VENDOR_NID) {
 		/* init_verb sequence for C0/C1/C2 errata*/
@@ -337,7 +336,6 @@ static int cs_init(struct hda_codec *codec)
 static int cs_build_controls(struct hda_codec *codec)
 {
 	int err;
-	printk("patch._cirrus: cs_build_controls begin");
 
 	err = snd_hda_gen_build_controls(codec);
 	if (err < 0)
@@ -362,7 +360,6 @@ static int cs_parse_auto_config(struct hda_codec *codec)
 	int err;
 	int i;
 
-	printk("patch_cirrus: cs_parse_auto_config begin");
 	err = snd_hda_parse_pin_defcfg(codec, &spec->gen.autocfg, NULL, 0);
 	if (err < 0)
 		return err;
@@ -507,7 +504,6 @@ static const struct hda_pintbl mba6_pincfgs[] = {
 static void cs420x_fixup_gpio_13(struct hda_codec *codec,
 				 const struct hda_fixup *fix, int action)
 {
-	printk("patch_cirrus: cs420x_fixup_gpio_13 begin");
 	if (action == HDA_FIXUP_ACT_PRE_PROBE) {
 		struct cs_spec *spec = codec->spec;
 		spec->gpio_eapd_hp = 2; /* GPIO1 = headphones */
@@ -520,7 +516,6 @@ static void cs420x_fixup_gpio_13(struct hda_codec *codec,
 static void cs420x_fixup_gpio_23(struct hda_codec *codec,
 				 const struct hda_fixup *fix, int action)
 {
-	printk("patch_cirrus: cs420x_fixup_gpio_23 begin");
 	if (action == HDA_FIXUP_ACT_PRE_PROBE) {
 		struct cs_spec *spec = codec->spec;
 		spec->gpio_eapd_hp = 4; /* GPIO2 = headphones */
@@ -588,7 +583,6 @@ static struct cs_spec *cs_alloc_spec(struct hda_codec *codec, int vendor_nid)
 {
 	struct cs_spec *spec;
 
-	printk("patch_cirrus: cs_spec begin");
 	spec = kzalloc(sizeof(*spec), GFP_KERNEL);
 	if (!spec)
 		return NULL;
@@ -605,7 +599,6 @@ static int patch_cs420x(struct hda_codec *codec)
 	struct cs_spec *spec;
 	int err;
 
-	printk("patch_cirrus: patch_cs420x begin");
 	spec = cs_alloc_spec(codec, CS420X_VENDOR_NID);
 	if (!spec)
 		return -ENOMEM;
@@ -669,7 +662,6 @@ static const struct snd_pci_quirk cs4208_mac_fixup_tbl[] = {
 static void cs4208_fixup_gpio0(struct hda_codec *codec,
 			       const struct hda_fixup *fix, int action)
 {
-	printk("patch_cirrus: cs420x_fixup_gpio0 begin");
 	if (action == HDA_FIXUP_ACT_PRE_PROBE) {
 		struct cs_spec *spec = codec->spec;
 		spec->gpio_eapd_hp = 0;
@@ -685,7 +677,6 @@ static const struct hda_fixup cs4208_fixups[];
 static void cs4208_fixup_mac(struct hda_codec *codec,
 			     const struct hda_fixup *fix, int action)
 {
-	printk("patch_cirrus: cs4208_fixup_mac begin");
 	if (action != HDA_FIXUP_ACT_PRE_PROBE)
 		return;
 
@@ -722,7 +713,6 @@ static int cs4208_spdif_sw_put(struct snd_kcontrol *kcontrol,
 	hda_nid_t pin = spec->gen.autocfg.dig_out_pins[0];
 	int pinctl = ucontrol->value.integer.value[0] ? PIN_OUT : 0;
 
-	printk("patch_cirrus: cs4208_spdif_sw_put  begin");
 	snd_hda_set_pin_ctl_cache(codec, pin, pinctl);
 	return spec->spdif_sw_put(kcontrol, ucontrol);
 }
@@ -731,7 +721,6 @@ static int cs4208_spdif_sw_put(struct snd_kcontrol *kcontrol,
 static void cs4208_fixup_spdif_switch(struct hda_codec *codec,
 				      const struct hda_fixup *fix, int action)
 {
-	printk("patch_cirrus: cs4208_fixup_spdif_switch begin");
 	if (action == HDA_FIXUP_ACT_BUILD) {
 		struct cs_spec *spec = codec->spec;
 		struct snd_kcontrol *kctl;
@@ -780,7 +769,6 @@ static void cs4208_fix_amp_caps(struct hda_codec *codec, hda_nid_t adc)
 {
 	unsigned int caps;
 
-	printk("patch_cirrus: cs4208_fix_amp_caps begin");
 	caps = query_amp_caps(codec, adc, HDA_INPUT);
 	caps &= ~(AC_AMPCAP_OFFSET);
 	caps |= 0x02;
@@ -792,7 +780,6 @@ static int patch_cs4208(struct hda_codec *codec)
 	struct cs_spec *spec;
 	int err;
 
-	printk("patch_cirrus: patch_cs4208 begin");
 	spec = cs_alloc_spec(codec, CS4208_VENDOR_NID);
 	if (!spec)
 		return -ENOMEM;
@@ -970,7 +957,6 @@ static int cs421x_boost_vol_info(struct snd_kcontrol *kcontrol,
 	uinfo->count = 1;
 	uinfo->value.integer.min = 0;
 	uinfo->value.integer.max = 3;
-	printk("patch_cirrus: cs421x_boost_vol_info begin");
 	return 0;
 }
 
@@ -979,7 +965,6 @@ static int cs421x_boost_vol_get(struct snd_kcontrol *kcontrol,
 {
 	struct hda_codec *codec = snd_kcontrol_chip(kcontrol);
 
-	printk("patch_cirrus: cs421x_boost_vol_get begin");
 	ucontrol->value.integer.value[0] =
 		cs_vendor_coef_get(codec, CS421X_IDX_SPK_CTL) & 0x0003;
 	return 0;
@@ -995,7 +980,6 @@ static int cs421x_boost_vol_put(struct snd_kcontrol *kcontrol,
 		cs_vendor_coef_get(codec, CS421X_IDX_SPK_CTL);
 	unsigned int original_coef = coef;
 
-	printk("patch_cirrus: cs421x_boost_vol_put begin");
 	coef &= ~0x0003;
 	coef |= (vol & 0x0003);
 	if (original_coef == coef)
@@ -1122,7 +1106,6 @@ static void fix_volume_caps(struct hda_codec *codec, hda_nid_t dac)
 {
 	unsigned int caps;
 
-	printk("patch_cirrus: fix_volume_caps begin");
 	/* set the upper-limit for mixer amp to 0dB */
 	caps = query_amp_caps(codec, dac, HDA_OUTPUT);
 	caps &= ~(0x7f << AC_AMPCAP_NUM_STEPS_SHIFT);
