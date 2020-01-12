@@ -44,14 +44,14 @@ ls -lA $update_dir
 
 #default_sample_channels=$(grep '^default-sample-channels.*$' $pulse_daemon_conf)
 
-#if [ -n "$default_sample_channels" ]; then
-#   if [[ "$default_sample_channels" != 'default-sample-channels = 4' ]]; then
-#	  echo -e "\nmodifying /etc/pulse/daemon.conf\ndefault-sample-channels = 4"
-#	  sed -i 's/^default-sample-channels.*$/default-sample-channels = 4/' $pulse_daemon_conf
-#	  killall pulseaudio &> /dev/null
-#   fi
-#else
-#	  echo -e "\nmodifying /etc/pulse/daemon.conf\ndefault-sample-channels = 4"
-#	  echo 'default-sample-channels = 4' >> $pulse_daemon_conf
-#	  killall pulseaudio &> /dev/null
-#fi
+if [ -n "$default_sample_channels" ]; then
+   if [[ "$default_sample_channels" != 'default-sample-channels = 4' ]]; then
+	  echo -e "\nmodifying /etc/pulse/daemon.conf\ndefault-sample-channels = 4"
+	  sed -i 's/^default-sample-channels.*$/default-sample-channels = 4/' $pulse_daemon_conf
+	  killall pulseaudio &> /dev/null
+   fi
+else
+	  echo -e "\nmodifying /etc/pulse/daemon.conf\ndefault-sample-channels = 4"
+	  echo 'default-sample-channels = 4' >> $pulse_daemon_conf
+	  killall pulseaudio &> /dev/null
+fi
