@@ -39,10 +39,10 @@ ls -lA $update_dir
 # modify /etc/pulse/daemon.conf
 # ensure four channels are enabled: 'default-sample-channels = 4'
 
-#pulse_daemon_conf='/etc/pulse/daemon.conf'
-#[[ ! -f $pulse_daemon_conf ]] && exit
+pulse_daemon_conf='/etc/pulse/daemon.conf'
+[[ ! -f $pulse_daemon_conf ]] && exit
 
-#default_sample_channels=$(grep '^default-sample-channels.*$' $pulse_daemon_conf)
+default_sample_channels=$(grep '^default-sample-channels.*$' $pulse_daemon_conf)
 
 if [ -n "$default_sample_channels" ]; then
    if [[ "$default_sample_channels" != 'default-sample-channels = 4' ]]; then
