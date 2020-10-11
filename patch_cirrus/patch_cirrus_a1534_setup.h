@@ -96,10 +96,534 @@ void snd_hda_coef_item(struct hda_codec *codec, u16 write_flag, hda_nid_t nid, u
         }
 }
 
+/* reserved for future use
+static int headphones_a1534 (struct hda_codec *codec) {
+	int retval;
+	codec_dbg(codec, "headphones_a1534 start");
+
+        retval = snd_hda_codec_read_check(codec, 0x00, 0, AC_VERB_PARAMETERS, 0x00000000, 0x10134208, 1); // 0x000f0000
+
+        retval = snd_hda_codec_read_check(codec, 0x10, 0, AC_VERB_GET_PIN_SENSE, 0x00000000, 0x80000000, 2); // 0x010f0900
+        retval = snd_hda_codec_read_check(codec, 0x11, 0, AC_VERB_GET_PIN_SENSE, 0x00000000, 0x00000000, 3); // 0x011f0900
+        retval = snd_hda_codec_read_check(codec, 0x17, 0, AC_VERB_GET_PIN_SENSE, 0x00000000, 0x00000000, 4); // 0x017f0900
+        retval = snd_hda_codec_read_check(codec, 0x18, 0, AC_VERB_GET_PIN_SENSE, 0x00000000, 0x00000000, 5); // 0x018f0900
+        retval = snd_hda_codec_read_check(codec, 0x21, 0, AC_VERB_GET_PIN_SENSE, 0x00000000, 0x00000000, 6); // 0x021f0900
+        retval = snd_hda_codec_read_check(codec, 0x22, 0, AC_VERB_GET_PIN_SENSE, 0x00000000, 0x00000000, 7); // 0x022f0900
+
+        snd_hda_codec_write(codec, codec->core.afg, 0, AC_VERB_SET_POWER_STATE, 0x00000000); // 0x00170500
+
+        retval = snd_hda_codec_read_check(codec, 0x10, 0, AC_VERB_GET_POWER_STATE, 0x00000000, 0x00000033, 13); // 0x010f0500
+
+        snd_hda_codec_write(codec, 0x10, 0, AC_VERB_SET_POWER_STATE, 0x00000000); // 0x01070500
+
+        retval = snd_hda_codec_read_check(codec, 0x10, 0, AC_VERB_GET_POWER_STATE, 0x00000000, 0x00000000, 16); // 0x010f0500
+        snd_hda_codec_write(codec, 0x10, 0, AC_VERB_SET_POWER_STATE, 0x00000003); // 0x01070503
+        retval = snd_hda_codec_read_check(codec, 0x10, 0, AC_VERB_GET_POWER_STATE, 0x00000000, 0x00000033, 18); // 0x010f0500
+
+        snd_hda_codec_write(codec, codec->core.afg, 0, AC_VERB_SET_POWER_STATE, 0x00000003); // 0x00170503
+
+        snd_hda_codec_write(codec, codec->core.afg, 0, AC_VERB_SET_POWER_STATE, 0x00000000); // 0x00170500
+
+
+        snd_hda_codec_write(codec, 0x24, 0, 0x7f0, 0x00000000);
+
+       // read  node 0x24 arg 1 0x0000 arg 2 0x001c arg 3 0x0000 arg 4 0x0000 data 0x00000000 (27)
+ //       { 0, CS4208_VENDOR_NID, 0x001c, 0x0000, 0x00000000 }, //   coef read 27
+        snd_hda_coef_item(codec, 0, CS4208_VENDOR_NID, 0x001c, 0x0000, 0x00000000, 28 ); //   coef read 28
+
+       // write node 0x24 arg 1 0x0000 arg 2 0x001c arg 3 0x0000 arg 4 0x0000 (31)
+ //       { 1, CS4208_VENDOR_NID, 0x001c, 0x0000, 0x00000000 }, //   coef write 31
+        snd_hda_coef_item(codec, 1, CS4208_VENDOR_NID, 0x001c, 0x0000, 0x00000000, 32 ); //   coef write 32
+
+       // read  node 0x24 arg 1 0x0000 arg 2 0x001f arg 3 0x0000 arg 4 0x0000 data 0x00000000 (35)
+ //       { 0, CS4208_VENDOR_NID, 0x001f, 0x0000, 0x00000000 }, //   coef read 35
+        snd_hda_coef_item(codec, 0, CS4208_VENDOR_NID, 0x001f, 0x0000, 0x00000000, 36 ); //   coef read 36
+//        vendor_verb
+        snd_hda_codec_write(codec, 0x24, 0, 0x7f0, 0x000000ae);
+
+
+       // read  node 0x24 arg 1 0x0000 arg 2 0x0000 arg 3 0x0000 arg 4 0x0000 data 0x000000c4 (41)
+ //       { 0, CS4208_VENDOR_NID, 0x0000, 0x0000, 0x000000c4 }, //   coef read 41
+        snd_hda_coef_item(codec, 0, CS4208_VENDOR_NID, 0x0000, 0x0000, 0x000000c4, 42 ); //   coef read 42
+
+       // write node 0x24 arg 1 0x0000 arg 2 0x0000 arg 3 0x20c4 arg 4 0x0000 (45)
+ //       { 1, CS4208_VENDOR_NID, 0x0000, 0x20c4, 0x00000000 }, //   coef write 45
+        snd_hda_coef_item(codec, 1, CS4208_VENDOR_NID, 0x0000, 0x20c4, 0x00000000, 46 ); //   coef write 46
+
+        snd_hda_codec_write(codec, codec->core.afg, 0, AC_VERB_SET_POWER_STATE, 0x00000003); // 0x00170503
+
+        snd_hda_codec_write(codec, codec->core.afg, 0, AC_VERB_SET_POWER_STATE, 0x00000000); // 0x00170500
+
+
+        snd_hda_codec_write(codec, codec->core.afg, 0, AC_VERB_SET_GPIO_DIRECTION, 0x00000031); // 0x00171731
+//       snd_hda:     gpio direction 1 0x31 in in out out in in in out
+
+
+        snd_hda_codec_write(codec, codec->core.afg, 0, AC_VERB_SET_GPIO_DATA, 0x00000020); // 0x00171520
+//       snd_hda:     gpio data 1 0x20
+
+
+        snd_hda_codec_write(codec, codec->core.afg, 0, AC_VERB_SET_GPIO_MASK, 0x00000037); // 0x00171637
+//       snd_hda:     gpio enable 1 0x37
+
+        snd_hda_codec_write(codec, codec->core.afg, 0, AC_VERB_SET_POWER_STATE, 0x00000003); // 0x00170503
+
+        snd_hda_codec_write(codec, codec->core.afg, 0, AC_VERB_SET_POWER_STATE, 0x00000000); // 0x00170500
+
+
+        snd_hda_codec_write(codec, codec->core.afg, 0, AC_VERB_SET_GPIO_DIRECTION, 0x00000031); // 0x00171731
+//       snd_hda:     gpio direction 1 0x31 in in out out in in in out
+
+
+        snd_hda_codec_write(codec, codec->core.afg, 0, AC_VERB_SET_GPIO_DATA, 0x00000030); // 0x00171530
+//       snd_hda:     gpio data 1 0x30
+
+
+        snd_hda_codec_write(codec, codec->core.afg, 0, AC_VERB_SET_GPIO_MASK, 0x00000037); // 0x00171637
+//       snd_hda:     gpio enable 1 0x37
+
+        snd_hda_codec_write(codec, codec->core.afg, 0, AC_VERB_SET_POWER_STATE, 0x00000003); // 0x00170503
+
+        snd_hda_codec_write(codec, codec->core.afg, 0, AC_VERB_SET_POWER_STATE, 0x00000000); // 0x00170500
+
+        snd_hda_codec_write(codec, 0x07, 0, AC_VERB_SET_CONNECT_SEL, 0x00000001); // 0x00770101
+
+
+        retval = snd_hda_codec_read_check(codec, 0x18, 0, AC_VERB_GET_PIN_WIDGET_CONTROL, 0x00000000, 0x00000000, 84); // 0x018f0700
+
+        snd_hda_codec_write(codec, 0x18, 0, AC_VERB_SET_POWER_STATE, 0x00000000); // 0x01870500
+
+        retval = snd_hda_codec_read_check(codec, 0x18, 0, AC_VERB_GET_POWER_STATE, 0x00000000, 0x00000000, 87); // 0x018f0500
+
+        snd_hda_codec_write(codec, 0x24, 0, AC_VERB_SET_PROC_STATE, 0x00000001); // 0x02470301
+
+       // read  node 0x24 arg 1 0x0000 arg 2 0x001c arg 3 0x0000 arg 4 0x0000 data 0x00000000 (88)
+ //       { 0, CS4208_VENDOR_NID, 0x001c, 0x0000, 0x00000000 }, //   coef read 88
+        snd_hda_coef_item(codec, 0, CS4208_VENDOR_NID, 0x001c, 0x0000, 0x00000000, 89 ); //   coef read 89
+
+       // write node 0x24 arg 1 0x0000 arg 2 0x001c arg 3 0x0000 arg 4 0x0000 (92)
+ //       { 1, CS4208_VENDOR_NID, 0x001c, 0x0000, 0x00000000 }, //   coef write 92
+        snd_hda_coef_item(codec, 1, CS4208_VENDOR_NID, 0x001c, 0x0000, 0x00000000, 93 ); //   coef write 93
+
+        retval = snd_hda_codec_read_check(codec, 0x18, 0, AC_VERB_GET_PIN_WIDGET_CONTROL, 0x00000000, 0x00000000, 97); // 0x018f0700
+        snd_hda_codec_write(codec, 0x18, 0, AC_VERB_SET_PIN_WIDGET_CONTROL, 0x00000004); // 0x01870704
+//       snd_hda:     24 []
+
+
+
+       // read  node 0x24 arg 1 0x0000 arg 2 0x0019 arg 3 0x0000 arg 4 0x0000 data 0x00004383 (99)
+ //       { 0, CS4208_VENDOR_NID, 0x0019, 0x0000, 0x00004383 }, //   coef read 99
+        snd_hda_coef_item(codec, 0, CS4208_VENDOR_NID, 0x0019, 0x0000, 0x00004383, 100 ); //   coef read 100
+
+       // write node 0x24 arg 1 0x0000 arg 2 0x0019 arg 3 0xc383 arg 4 0x0000 (103)
+ //       { 1, CS4208_VENDOR_NID, 0x0019, 0xc383, 0x00000000 }, //   coef write 103
+        snd_hda_coef_item(codec, 1, CS4208_VENDOR_NID, 0x0019, 0xc383, 0x00000000, 104 ); //   coef write 104
+
+
+        snd_hda_codec_write(codec, 0x24, 0, 0x7f0, 0x00000000);
+
+
+
+       // write node 0x24 arg 1 0x0000 arg 2 0x0019 arg 3 0x8383 arg 4 0x0000 (111)
+ //       { 1, CS4208_VENDOR_NID, 0x0019, 0x8383, 0x00000000 }, //   coef write 111
+        snd_hda_coef_item(codec, 1, CS4208_VENDOR_NID, 0x0019, 0x8383, 0x00000000, 112 ); //   coef write 112
+
+
+        snd_hda_codec_write(codec, codec->core.afg, 0, AC_VERB_SET_GPIO_DIRECTION, 0x00000031); // 0x00171731
+//       snd_hda:     gpio direction 1 0x31 in in out out in in in out
+
+
+        snd_hda_codec_write(codec, codec->core.afg, 0, AC_VERB_SET_GPIO_DATA, 0x00000010); // 0x00171510
+//       snd_hda:     gpio data 1 0x10
+
+
+        snd_hda_codec_write(codec, codec->core.afg, 0, AC_VERB_SET_GPIO_MASK, 0x00000037); // 0x00171637
+//       snd_hda:     gpio enable 1 0x37
+
+
+        snd_hda_codec_write(codec, codec->core.afg, 0, AC_VERB_SET_GPIO_DIRECTION, 0x00000031); // 0x00171731
+//       snd_hda:     gpio direction 1 0x31 in in out out in in in out
+
+
+        snd_hda_codec_write(codec, codec->core.afg, 0, AC_VERB_SET_GPIO_DATA, 0x00000000); // 0x00171500
+//       snd_hda:     gpio data 1 0x00
+
+
+        snd_hda_codec_write(codec, codec->core.afg, 0, AC_VERB_SET_GPIO_MASK, 0x00000037); // 0x00171637
+//       snd_hda:     gpio enable 1 0x37
+
+
+       // read  node 0x24 arg 1 0x0000 arg 2 0x0000 arg 3 0x0000 arg 4 0x0000 data 0x000020c4 (130)
+ //       { 0, CS4208_VENDOR_NID, 0x0000, 0x0000, 0x000020c4 }, 
+        snd_hda_coef_item(codec, 0, CS4208_VENDOR_NID, 0x0000, 0x0000, 0x000020c4, 131 ); 
+       // write node 0x24 arg 1 0x0000 arg 2 0x0000 arg 3 0x00c4 arg 4 0x0000 (134)
+ //       { 1, CS4208_VENDOR_NID, 0x0000, 0x00c4, 0x00000000 }, 
+        snd_hda_coef_item(codec, 1, CS4208_VENDOR_NID, 0x0000, 0x00c4, 0x00000000, 135 ); 
+       snd_hda_codec_write(codec, 0x07, 0, AC_VERB_SET_CONNECT_SEL, 0x00000001); // 0x00770101
+
+
+        retval = snd_hda_codec_read_check(codec, 0x18, 0, AC_VERB_GET_PIN_WIDGET_CONTROL, 0x00000000, 0x00000004, 141); // 0x018f0700
+        snd_hda_codec_write(codec, 0x18, 0, AC_VERB_SET_PIN_WIDGET_CONTROL, 0x00000020); // 0x01870720
+//       snd_hda:     24 ['AC_PINCTL_IN_EN']
+
+
+        snd_hda_codec_write(codec, 0x24, 0, AC_VERB_SET_PROC_STATE, 0x00000001); // 0x02470301
+
+       // read  node 0x24 arg 1 0x0000 arg 2 0x001c arg 3 0x0000 arg 4 0x0000 data 0x00000000 (143)
+ //       { 0, CS4208_VENDOR_NID, 0x001c, 0x0000, 0x00000000 }, //   coef read 143
+        snd_hda_coef_item(codec, 0, CS4208_VENDOR_NID, 0x001c, 0x0000, 0x00000000, 144 ); //   coef read 144
+
+       // write node 0x24 arg 1 0x0000 arg 2 0x001c arg 3 0x0010 arg 4 0x0000 (147)
+ //       { 1, CS4208_VENDOR_NID, 0x001c, 0x0010, 0x00000000 }, //   coef write 147
+        snd_hda_coef_item(codec, 1, CS4208_VENDOR_NID, 0x001c, 0x0010, 0x00000000, 148 ); //   coef write 148
+
+        retval = snd_hda_codec_read_check(codec, 0x18, 0, AC_VERB_GET_PIN_WIDGET_CONTROL, 0x00000000, 0x00000020, 152); // 0x018f0700
+
+        snd_hda_codec_write(codec, 0x18, 0, AC_VERB_SET_POWER_STATE, 0x00000003); // 0x01870503
+
+        retval = snd_hda_codec_read_check(codec, 0x18, 0, AC_VERB_GET_POWER_STATE, 0x00000000, 0x00000033, 154); // 0x018f0500
+        retval = snd_hda_codec_read_check(codec, 0x10, 0, AC_VERB_GET_POWER_STATE, 0x00000000, 0x00000033, 157); // 0x010f0500
+
+        snd_hda_codec_write(codec, 0x10, 0, AC_VERB_SET_POWER_STATE, 0x00000000); // 0x01070500
+
+        retval = snd_hda_codec_read_check(codec, 0x10, 0, AC_VERB_GET_POWER_STATE, 0x00000000, 0x00000000, 160); // 0x010f0500
+        snd_hda_codec_write(codec, 0x10, 0, AC_VERB_SET_POWER_STATE, 0x00000003); // 0x01070503
+        retval = snd_hda_codec_read_check(codec, 0x10, 0, AC_VERB_GET_POWER_STATE, 0x00000000, 0x00000033, 162); // 0x010f0500
+
+
+
+       // read  node 0x24 arg 1 0x0000 arg 2 0x0035 arg 3 0x0000 arg 4 0x0000 data 0x00000000 (164)
+ //       { 0, CS4208_VENDOR_NID, 0x0035, 0x0000, 0x00000000 }, //   coef read 164
+        snd_hda_coef_item(codec, 0, CS4208_VENDOR_NID, 0x0035, 0x0000, 0x00000000, 165 ); //   coef read 165
+
+       // write node 0x24 arg 1 0x0000 arg 2 0x0035 arg 3 0x0000 arg 4 0x0000 (168)
+ //       { 1, CS4208_VENDOR_NID, 0x0035, 0x0000, 0x00000000 }, //   coef write 168
+        snd_hda_coef_item(codec, 1, CS4208_VENDOR_NID, 0x0035, 0x0000, 0x00000000, 169 ); //   coef write 169
+
+        snd_hda_codec_write(codec, 0x02, 0, AC_VERB_SET_STREAM_FORMAT, 0x00004031); // 0x00224031
+//       snd_hda:     stream format 2 [('CHAN', 2), ('RATE', 44100), ('BITS', 24), ('RATE_MUL', 1), ('RATE_DIV', 1)]
+
+        retval = snd_hda_codec_read_check(codec, 0x02, 0, AC_VERB_GET_POWER_STATE, 0x00000000, 0x00000033, 174); // 0x002f0500
+
+        snd_hda_codec_write(codec, 0x02, 0, AC_VERB_SET_POWER_STATE, 0x00000000); // 0x00270500
+
+        retval = snd_hda_codec_read_check(codec, 0x02, 0, AC_VERB_GET_POWER_STATE, 0x00000000, 0x00000030, 177); // 0x002f0500
+
+        snd_hda_codec_write(codec, 0x02, 0, AC_VERB_SET_CHANNEL_STREAMID, 0x00000010); // 0x00270610
+//       snd_hda:     conv stream channel map 2 [('CHAN', 0), ('STREAMID', 1)]
+
+        snd_hda_codec_write(codec, 0x02, 0, AC_VERB_SET_POWER_STATE, 0x00000003); // 0x00270503
+
+        retval = snd_hda_codec_read_check(codec, 0x02, 0, AC_VERB_GET_POWER_STATE, 0x00000000, 0x00000033, 180); // 0x002f0500
+
+        snd_hda_codec_write(codec, 0x10, 0, AC_VERB_SET_CONNECT_SEL, 0x00000000); // 0x01070100
+
+        retval = snd_hda_codec_read_check(codec, 0x10, 0, AC_VERB_GET_AMP_GAIN_MUTE, 0x0000a000, 0x000000c2, 183); // 0x010ba000
+//       snd_hda:     amp gain/mute 16 0xa000 index 0x00 left/right 1 left output/input 1 output
+//       snd_hda:     amp gain/mute 16 0x00c2 mute 1 gain 0x42 66
+        snd_hda_codec_write(codec, 0x10, 0, AC_VERB_SET_AMP_GAIN_MUTE, 0x0000a0c1); // 0x0103a0c1
+//       snd_hda:     amp gain/mute 16 0xa0c1 mute 1 gain 0x41 65 index 0x00 left 1 right 0 output 1 input 0 left  output 
+        retval = snd_hda_codec_read_check(codec, 0x10, 0, AC_VERB_GET_AMP_GAIN_MUTE, 0x00008000, 0x000000c2, 185); // 0x010b8000
+//       snd_hda:     amp gain/mute 16 0x8000 index 0x00 left/right 0 right output/input 1 output
+//       snd_hda:     amp gain/mute 16 0x00c2 mute 1 gain 0x42 66
+        snd_hda_codec_write(codec, 0x10, 0, AC_VERB_SET_AMP_GAIN_MUTE, 0x000090c1); // 0x010390c1
+//       snd_hda:     amp gain/mute 16 0x90c1 mute 1 gain 0x41 65 index 0x00 left 0 right 1 output 1 input 0  right output 
+
+        retval = snd_hda_codec_read_check(codec, 0x10, 0, AC_VERB_GET_AMP_GAIN_MUTE, 0x0000a000, 0x000000c1, 187); // 0x010ba000
+//       snd_hda:     amp gain/mute 16 0xa000 index 0x00 left/right 1 left output/input 1 output
+//       snd_hda:     amp gain/mute 16 0x00c1 mute 1 gain 0x41 65
+        snd_hda_codec_write(codec, 0x10, 0, AC_VERB_SET_AMP_GAIN_MUTE, 0x0000a041); // 0x0103a041
+//       snd_hda:     amp gain/mute 16 0xa041 mute 0 gain 0x41 65 index 0x00 left 1 right 0 output 1 input 0 left  output 
+        retval = snd_hda_codec_read_check(codec, 0x10, 0, AC_VERB_GET_AMP_GAIN_MUTE, 0x00008000, 0x000000c1, 189); // 0x010b8000
+//       snd_hda:     amp gain/mute 16 0x8000 index 0x00 left/right 0 right output/input 1 output
+//       snd_hda:     amp gain/mute 16 0x00c1 mute 1 gain 0x41 65
+        snd_hda_codec_write(codec, 0x10, 0, AC_VERB_SET_AMP_GAIN_MUTE, 0x00009041); // 0x01039041
+//       snd_hda:     amp gain/mute 16 0x9041 mute 0 gain 0x41 65 index 0x00 left 0 right 1 output 1 input 0  right output 
+
+        retval = snd_hda_codec_read_check(codec, 0x10, 0, AC_VERB_GET_AMP_GAIN_MUTE, 0x0000a000, 0x00000041, 191); // 0x010ba000
+//       snd_hda:     amp gain/mute 16 0xa000 index 0x00 left/right 1 left output/input 1 output
+//       snd_hda:     amp gain/mute 16 0x0041 mute 0 gain 0x41 65
+        snd_hda_codec_write(codec, 0x10, 0, AC_VERB_SET_AMP_GAIN_MUTE, 0x0000a041); // 0x0103a041
+//       snd_hda:     amp gain/mute 16 0xa041 mute 0 gain 0x41 65 index 0x00 left 1 right 0 output 1 input 0 left  output 
+        retval = snd_hda_codec_read_check(codec, 0x10, 0, AC_VERB_GET_AMP_GAIN_MUTE, 0x00008000, 0x00000041, 193); // 0x010b8000
+//       snd_hda:     amp gain/mute 16 0x8000 index 0x00 left/right 0 right output/input 1 output
+//       snd_hda:     amp gain/mute 16 0x0041 mute 0 gain 0x41 65
+        snd_hda_codec_write(codec, 0x10, 0, AC_VERB_SET_AMP_GAIN_MUTE, 0x00009041); // 0x01039041
+//       snd_hda:     amp gain/mute 16 0x9041 mute 0 gain 0x41 65 index 0x00 left 0 right 1 output 1 input 0  right output 
+
+        retval = snd_hda_codec_read_check(codec, 0x02, 0, AC_VERB_GET_AMP_GAIN_MUTE, 0x0000a000, 0x000000ff, 195); // 0x002ba000
+//       snd_hda:     amp gain/mute 2 0xa000 index 0x00 left/right 1 left output/input 1 output
+//       snd_hda:     amp gain/mute 2 0x00ff mute 1 gain 0x7f 127
+        snd_hda_codec_write(codec, 0x02, 0, AC_VERB_SET_AMP_GAIN_MUTE, 0x0000a080); // 0x0023a080
+//       snd_hda:     amp gain/mute 2 0xa080 mute 1 gain 0x0 0 index 0x00 left 1 right 0 output 1 input 0 left  output 
+        retval = snd_hda_codec_read_check(codec, 0x02, 0, AC_VERB_GET_AMP_GAIN_MUTE, 0x00008000, 0x000000ff, 197); // 0x002b8000
+//       snd_hda:     amp gain/mute 2 0x8000 index 0x00 left/right 0 right output/input 1 output
+//       snd_hda:     amp gain/mute 2 0x00ff mute 1 gain 0x7f 127
+        snd_hda_codec_write(codec, 0x02, 0, AC_VERB_SET_AMP_GAIN_MUTE, 0x00009080); // 0x00239080
+//       snd_hda:     amp gain/mute 2 0x9080 mute 1 gain 0x0 0 index 0x00 left 0 right 1 output 1 input 0  right output 
+
+        retval = snd_hda_codec_read_check(codec, 0x02, 0, AC_VERB_GET_AMP_GAIN_MUTE, 0x0000a000, 0x00000080, 199); // 0x002ba000
+//       snd_hda:     amp gain/mute 2 0xa000 index 0x00 left/right 1 left output/input 1 output
+//       snd_hda:     amp gain/mute 2 0x0080 mute 1 gain 0x0 0
+        snd_hda_codec_write(codec, 0x02, 0, AC_VERB_SET_AMP_GAIN_MUTE, 0x0000a080); // 0x0023a080
+//       snd_hda:     amp gain/mute 2 0xa080 mute 1 gain 0x0 0 index 0x00 left 1 right 0 output 1 input 0 left  output 
+        retval = snd_hda_codec_read_check(codec, 0x02, 0, AC_VERB_GET_AMP_GAIN_MUTE, 0x00008000, 0x00000080, 201); // 0x002b8000
+//       snd_hda:     amp gain/mute 2 0x8000 index 0x00 left/right 0 right output/input 1 output
+//       snd_hda:     amp gain/mute 2 0x0080 mute 1 gain 0x0 0
+        snd_hda_codec_write(codec, 0x02, 0, AC_VERB_SET_AMP_GAIN_MUTE, 0x00009080); // 0x00239080
+//       snd_hda:     amp gain/mute 2 0x9080 mute 1 gain 0x0 0 index 0x00 left 0 right 1 output 1 input 0  right output 
+
+        retval = snd_hda_codec_read_check(codec, 0x10, 0, AC_VERB_GET_PIN_WIDGET_CONTROL, 0x00000000, 0x00000000, 203); // 0x010f0700
+        snd_hda_codec_write(codec, 0x10, 0, AC_VERB_SET_PIN_WIDGET_CONTROL, 0x00000040); // 0x01070740
+//       snd_hda:     16 ['AC_PINCTL_OUT_EN']
+
+
+
+       // read  node 0x24 arg 1 0x0000 arg 2 0x0035 arg 3 0x0000 arg 4 0x0000 data 0x00000000 (206)
+ //       { 0, CS4208_VENDOR_NID, 0x0035, 0x0000, 0x00000000 }, //   coef read 206
+        snd_hda_coef_item(codec, 0, CS4208_VENDOR_NID, 0x0035, 0x0000, 0x00000000, 207 ); //   coef read 207
+
+       // write node 0x24 arg 1 0x0000 arg 2 0x0035 arg 3 0x0000 arg 4 0x0000 (210)
+ //       { 1, CS4208_VENDOR_NID, 0x0035, 0x0000, 0x00000000 }, //   coef write 210
+        snd_hda_coef_item(codec, 1, CS4208_VENDOR_NID, 0x0035, 0x0000, 0x00000000, 211 ); //   coef write 211
+
+        snd_hda_codec_write(codec, 0x02, 0, AC_VERB_SET_STREAM_FORMAT, 0x00004031); // 0x00224031
+//       snd_hda:     stream format 2 [('CHAN', 2), ('RATE', 44100), ('BITS', 24), ('RATE_MUL', 1), ('RATE_DIV', 1)]
+
+
+        retval = snd_hda_codec_read_check(codec, 0x02, 0, AC_VERB_GET_AMP_GAIN_MUTE, 0x00008000, 0x00000080, 218); // 0x002b8000
+//       snd_hda:     amp gain/mute 2 0x8000 index 0x00 left/right 0 right output/input 1 output
+//       snd_hda:     amp gain/mute 2 0x0080 mute 1 gain 0x0 0
+
+        snd_hda_codec_write(codec, 0x02, 0, AC_VERB_SET_AMP_GAIN_MUTE, 0x000090ff); // 0x002390ff
+//       snd_hda:     amp gain/mute 2 0x90ff mute 1 gain 0x7f 127 index 0x00 left 0 right 1 output 1 input 0  right output 
+
+
+        retval = snd_hda_codec_read_check(codec, 0x02, 0, AC_VERB_GET_AMP_GAIN_MUTE, 0x0000a000, 0x00000080, 221); // 0x002ba000
+//       snd_hda:     amp gain/mute 2 0xa000 index 0x00 left/right 1 left output/input 1 output
+//       snd_hda:     amp gain/mute 2 0x0080 mute 1 gain 0x0 0
+
+        snd_hda_codec_write(codec, 0x02, 0, AC_VERB_SET_AMP_GAIN_MUTE, 0x0000a0ff); // 0x0023a0ff
+//       snd_hda:     amp gain/mute 2 0xa0ff mute 1 gain 0x7f 127 index 0x00 left 1 right 0 output 1 input 0 left  output 
+
+
+        retval = snd_hda_codec_read_check(codec, 0x02, 0, AC_VERB_GET_AMP_GAIN_MUTE, 0x00008000, 0x000000ff, 224); // 0x002b8000
+//       snd_hda:     amp gain/mute 2 0x8000 index 0x00 left/right 0 right output/input 1 output
+//       snd_hda:     amp gain/mute 2 0x00ff mute 1 gain 0x7f 127
+
+        snd_hda_codec_write(codec, 0x02, 0, AC_VERB_SET_AMP_GAIN_MUTE, 0x0000907f); // 0x0023907f
+//       snd_hda:     amp gain/mute 2 0x907f mute 0 gain 0x7f 127 index 0x00 left 0 right 1 output 1 input 0  right output 
+
+
+        retval = snd_hda_codec_read_check(codec, 0x02, 0, AC_VERB_GET_AMP_GAIN_MUTE, 0x0000a000, 0x000000ff, 227); // 0x002ba000
+//       snd_hda:     amp gain/mute 2 0xa000 index 0x00 left/right 1 left output/input 1 output
+//       snd_hda:     amp gain/mute 2 0x00ff mute 1 gain 0x7f 127
+
+        snd_hda_codec_write(codec, 0x02, 0, AC_VERB_SET_AMP_GAIN_MUTE, 0x0000a07f); // 0x0023a07f
+//       snd_hda:     amp gain/mute 2 0xa07f mute 0 gain 0x7f 127 index 0x00 left 1 right 0 output 1 input 0 left  output 
+
+
+        retval = snd_hda_codec_read_check(codec, 0x02, 0, AC_VERB_GET_AMP_GAIN_MUTE, 0x0000a000, 0x0000007f, 230); // 0x002ba000
+//       snd_hda:     amp gain/mute 2 0xa000 index 0x00 left/right 1 left output/input 1 output
+//       snd_hda:     amp gain/mute 2 0x007f mute 0 gain 0x7f 127
+        snd_hda_codec_write(codec, 0x02, 0, AC_VERB_SET_AMP_GAIN_MUTE, 0x0000a07f); // 0x0023a07f
+//       snd_hda:     amp gain/mute 2 0xa07f mute 0 gain 0x7f 127 index 0x00 left 1 right 0 output 1 input 0 left  output 
+        retval = snd_hda_codec_read_check(codec, 0x02, 0, AC_VERB_GET_AMP_GAIN_MUTE, 0x00008000, 0x0000007f, 232); // 0x002b8000
+//       snd_hda:     amp gain/mute 2 0x8000 index 0x00 left/right 0 right output/input 1 output
+//       snd_hda:     amp gain/mute 2 0x007f mute 0 gain 0x7f 127
+        snd_hda_codec_write(codec, 0x02, 0, AC_VERB_SET_AMP_GAIN_MUTE, 0x0000907f); // 0x0023907f
+//       snd_hda:     amp gain/mute 2 0x907f mute 0 gain 0x7f 127 index 0x00 left 0 right 1 output 1 input 0  right output 
+
+        retval = snd_hda_codec_read_check(codec, 0x06, 0, AC_VERB_GET_POWER_STATE, 0x00000000, 0x00000033, 235); // 0x006f0500
+        retval = snd_hda_codec_read_check(codec, 0x10, 0, AC_VERB_GET_POWER_STATE, 0x00000000, 0x00000033, 236); // 0x010f0500
+        retval = snd_hda_codec_read_check(codec, 0x02, 0, AC_VERB_GET_POWER_STATE, 0x00000000, 0x00000033, 237); // 0x002f0500
+        retval = snd_hda_codec_read_check(codec, 0x10, 0, AC_VERB_GET_POWER_STATE, 0x00000000, 0x00000033, 240); // 0x010f0500
+
+        snd_hda_codec_write(codec, 0x10, 0, AC_VERB_SET_POWER_STATE, 0x00000000); // 0x01070500
+
+        retval = snd_hda_codec_read_check(codec, 0x10, 0, AC_VERB_GET_POWER_STATE, 0x00000000, 0x00000000, 243); // 0x010f0500
+        snd_hda_codec_write(codec, 0x10, 0, AC_VERB_SET_POWER_STATE, 0x00000003); // 0x01070503
+        retval = snd_hda_codec_read_check(codec, 0x10, 0, AC_VERB_GET_POWER_STATE, 0x00000000, 0x00000033, 245); // 0x010f0500
+
+        snd_hda_codec_write(codec, codec->core.afg, 0, AC_VERB_SET_POWER_STATE, 0x00000003); // 0x00170503
+
+        snd_hda_codec_write(codec, codec->core.afg, 0, AC_VERB_SET_POWER_STATE, 0x00000000); // 0x00170500
+
+
+        retval = snd_hda_codec_read_check(codec, 0x02, 0, AC_VERB_GET_AMP_GAIN_MUTE, 0x00008000, 0x0000007f, 254); // 0x002b8000
+//       snd_hda:     amp gain/mute 2 0x8000 index 0x00 left/right 0 right output/input 1 output
+//       snd_hda:     amp gain/mute 2 0x007f mute 0 gain 0x7f 127
+
+        snd_hda_codec_write(codec, 0x02, 0, AC_VERB_SET_AMP_GAIN_MUTE, 0x0000907f); // 0x0023907f
+//       snd_hda:     amp gain/mute 2 0x907f mute 0 gain 0x7f 127 index 0x00 left 0 right 1 output 1 input 0  right output 
+
+        snd_hda_codec_write(codec, codec->core.afg, 0, AC_VERB_SET_POWER_STATE, 0x00000003); // 0x00170503
+
+        snd_hda_codec_write(codec, codec->core.afg, 0, AC_VERB_SET_POWER_STATE, 0x00000000); // 0x00170500
+
+
+        snd_hda_codec_write(codec, codec->core.afg, 0, AC_VERB_SET_POWER_STATE, 0x00000003); // 0x00170503
+
+        snd_hda_codec_write(codec, codec->core.afg, 0, AC_VERB_SET_POWER_STATE, 0x00000000); // 0x00170500
+
+
+        retval = snd_hda_codec_read_check(codec, 0x02, 0, AC_VERB_GET_AMP_GAIN_MUTE, 0x0000a000, 0x0000007f, 270); // 0x002ba000
+//       snd_hda:     amp gain/mute 2 0xa000 index 0x00 left/right 1 left output/input 1 output
+//       snd_hda:     amp gain/mute 2 0x007f mute 0 gain 0x7f 127
+
+        snd_hda_codec_write(codec, 0x02, 0, AC_VERB_SET_AMP_GAIN_MUTE, 0x0000a07f); // 0x0023a07f
+//       snd_hda:     amp gain/mute 2 0xa07f mute 0 gain 0x7f 127 index 0x00 left 1 right 0 output 1 input 0 left  output 
+
+        snd_hda_codec_write(codec, codec->core.afg, 0, AC_VERB_SET_POWER_STATE, 0x00000003); // 0x00170503
+
+        retval = snd_hda_codec_read_check(codec, 0x00, 0, AC_VERB_PARAMETERS, 0x00000000, 0x10134208, 274); // 0x000f0000
+
+        snd_hda_codec_write(codec, codec->core.afg, 0, AC_VERB_SET_POWER_STATE, 0x00000000); // 0x00170500
+
+        snd_hda_codec_write(codec, 0x10, 0, AC_VERB_SET_POWER_STATE, 0x00000000); // 0x01070500
+
+        retval = snd_hda_codec_read_check(codec, 0x10, 0, AC_VERB_GET_POWER_STATE, 0x00000000, 0x00000000, 280); // 0x010f0500
+
+        snd_hda_codec_write(codec, 0x02, 0, AC_VERB_SET_POWER_STATE, 0x00000000); // 0x00270500
+        retval = snd_hda_codec_read_check(codec, 0x02, 0, AC_VERB_GET_POWER_STATE, 0x00000000, 0x00000030, 283); // 0x002f0500
+
+        retval = snd_hda_codec_read_check(codec, 0x10, 0, AC_VERB_GET_POWER_STATE, 0x00000000, 0x00000030, 286); // 0x010f0500
+        retval = snd_hda_codec_read_check(codec, 0x10, 0, AC_VERB_GET_POWER_STATE, 0x00000000, 0x00000030, 287); // 0x010f0500
+
+
+       // read  node 0x24 arg 1 0x0000 arg 2 0x0035 arg 3 0x0000 arg 4 0x0000 data 0x00000000 (288)
+ //       { 0, CS4208_VENDOR_NID, 0x0035, 0x0000, 0x00000000 }, //   coef read 288
+        snd_hda_coef_item(codec, 0, CS4208_VENDOR_NID, 0x0035, 0x0000, 0x00000000, 289 ); //   coef read 289
+
+       // write node 0x24 arg 1 0x0000 arg 2 0x0035 arg 3 0x0000 arg 4 0x0000 (292)
+ //       { 1, CS4208_VENDOR_NID, 0x0035, 0x0000, 0x00000000 }, //   coef write 292
+        snd_hda_coef_item(codec, 1, CS4208_VENDOR_NID, 0x0035, 0x0000, 0x00000000, 293 ); //   coef write 293
+
+        snd_hda_codec_write(codec, 0x02, 0, AC_VERB_SET_STREAM_FORMAT, 0x00004031); // 0x00224031
+//       snd_hda:     stream format 2 [('CHAN', 2), ('RATE', 44100), ('BITS', 24), ('RATE_MUL', 1), ('RATE_DIV', 1)]
+
+        retval = snd_hda_codec_read_check(codec, 0x02, 0, AC_VERB_GET_POWER_STATE, 0x00000000, 0x00000030, 298); // 0x002f0500
+
+        snd_hda_codec_write(codec, 0x02, 0, AC_VERB_SET_CHANNEL_STREAMID, 0x00000010); // 0x00270610
+//       snd_hda:     conv stream channel map 2 [('CHAN', 0), ('STREAMID', 1)]
+
+        snd_hda_codec_write(codec, 0x10, 0, AC_VERB_SET_CONNECT_SEL, 0x00000000); // 0x01070100
+
+        retval = snd_hda_codec_read_check(codec, 0x10, 0, AC_VERB_GET_AMP_GAIN_MUTE, 0x0000a000, 0x00000041, 301); // 0x010ba000
+//       snd_hda:     amp gain/mute 16 0xa000 index 0x00 left/right 1 left output/input 1 output
+//       snd_hda:     amp gain/mute 16 0x0041 mute 0 gain 0x41 65
+        snd_hda_codec_write(codec, 0x10, 0, AC_VERB_SET_AMP_GAIN_MUTE, 0x0000a041); // 0x0103a041
+//       snd_hda:     amp gain/mute 16 0xa041 mute 0 gain 0x41 65 index 0x00 left 1 right 0 output 1 input 0 left  output 
+        retval = snd_hda_codec_read_check(codec, 0x10, 0, AC_VERB_GET_AMP_GAIN_MUTE, 0x00008000, 0x00000041, 303); // 0x010b8000
+//       snd_hda:     amp gain/mute 16 0x8000 index 0x00 left/right 0 right output/input 1 output
+//       snd_hda:     amp gain/mute 16 0x0041 mute 0 gain 0x41 65
+        snd_hda_codec_write(codec, 0x10, 0, AC_VERB_SET_AMP_GAIN_MUTE, 0x00009041); // 0x01039041
+//       snd_hda:     amp gain/mute 16 0x9041 mute 0 gain 0x41 65 index 0x00 left 0 right 1 output 1 input 0  right output 
+
+        retval = snd_hda_codec_read_check(codec, 0x10, 0, AC_VERB_GET_AMP_GAIN_MUTE, 0x0000a000, 0x00000041, 305); // 0x010ba000
+//       snd_hda:     amp gain/mute 16 0xa000 index 0x00 left/right 1 left output/input 1 output
+//       snd_hda:     amp gain/mute 16 0x0041 mute 0 gain 0x41 65
+        snd_hda_codec_write(codec, 0x10, 0, AC_VERB_SET_AMP_GAIN_MUTE, 0x0000a041); // 0x0103a041
+//       snd_hda:     amp gain/mute 16 0xa041 mute 0 gain 0x41 65 index 0x00 left 1 right 0 output 1 input 0 left  output 
+        retval = snd_hda_codec_read_check(codec, 0x10, 0, AC_VERB_GET_AMP_GAIN_MUTE, 0x00008000, 0x00000041, 307); // 0x010b8000
+//       snd_hda:     amp gain/mute 16 0x8000 index 0x00 left/right 0 right output/input 1 output
+//       snd_hda:     amp gain/mute 16 0x0041 mute 0 gain 0x41 65
+        snd_hda_codec_write(codec, 0x10, 0, AC_VERB_SET_AMP_GAIN_MUTE, 0x00009041); // 0x01039041
+//       snd_hda:     amp gain/mute 16 0x9041 mute 0 gain 0x41 65 index 0x00 left 0 right 1 output 1 input 0  right output 
+
+        retval = snd_hda_codec_read_check(codec, 0x10, 0, AC_VERB_GET_AMP_GAIN_MUTE, 0x0000a000, 0x00000041, 309); // 0x010ba000
+//       snd_hda:     amp gain/mute 16 0xa000 index 0x00 left/right 1 left output/input 1 output
+//       snd_hda:     amp gain/mute 16 0x0041 mute 0 gain 0x41 65
+        snd_hda_codec_write(codec, 0x10, 0, AC_VERB_SET_AMP_GAIN_MUTE, 0x0000a041); // 0x0103a041
+//       snd_hda:     amp gain/mute 16 0xa041 mute 0 gain 0x41 65 index 0x00 left 1 right 0 output 1 input 0 left  output 
+        retval = snd_hda_codec_read_check(codec, 0x10, 0, AC_VERB_GET_AMP_GAIN_MUTE, 0x00008000, 0x00000041, 311); // 0x010b8000
+//       snd_hda:     amp gain/mute 16 0x8000 index 0x00 left/right 0 right output/input 1 output
+//       snd_hda:     amp gain/mute 16 0x0041 mute 0 gain 0x41 65
+        snd_hda_codec_write(codec, 0x10, 0, AC_VERB_SET_AMP_GAIN_MUTE, 0x00009041); // 0x01039041
+//       snd_hda:     amp gain/mute 16 0x9041 mute 0 gain 0x41 65 index 0x00 left 0 right 1 output 1 input 0  right output 
+
+        retval = snd_hda_codec_read_check(codec, 0x02, 0, AC_VERB_GET_AMP_GAIN_MUTE, 0x0000a000, 0x0000007f, 313); // 0x002ba000
+//       snd_hda:     amp gain/mute 2 0xa000 index 0x00 left/right 1 left output/input 1 output
+//       snd_hda:     amp gain/mute 2 0x007f mute 0 gain 0x7f 127
+        snd_hda_codec_write(codec, 0x02, 0, AC_VERB_SET_AMP_GAIN_MUTE, 0x0000a000); // 0x0023a000
+//       snd_hda:     amp gain/mute 2 0xa000 mute 0 gain 0x0 0 index 0x00 left 1 right 0 output 1 input 0 left  output 
+        retval = snd_hda_codec_read_check(codec, 0x02, 0, AC_VERB_GET_AMP_GAIN_MUTE, 0x00008000, 0x0000007f, 315); // 0x002b8000
+//       snd_hda:     amp gain/mute 2 0x8000 index 0x00 left/right 0 right output/input 1 output
+//       snd_hda:     amp gain/mute 2 0x007f mute 0 gain 0x7f 127
+        snd_hda_codec_write(codec, 0x02, 0, AC_VERB_SET_AMP_GAIN_MUTE, 0x00009000); // 0x00239000
+//       snd_hda:     amp gain/mute 2 0x9000 mute 0 gain 0x0 0 index 0x00 left 0 right 1 output 1 input 0  right output 
+
+        retval = snd_hda_codec_read_check(codec, 0x02, 0, AC_VERB_GET_AMP_GAIN_MUTE, 0x0000a000, 0x00000000, 317); // 0x002ba000
+//       snd_hda:     amp gain/mute 2 0xa000 index 0x00 left/right 1 left output/input 1 output
+//       snd_hda:     amp gain/mute 2 0x0000 mute 0 gain 0x0 0
+        snd_hda_codec_write(codec, 0x02, 0, AC_VERB_SET_AMP_GAIN_MUTE, 0x0000a080); // 0x0023a080
+//       snd_hda:     amp gain/mute 2 0xa080 mute 1 gain 0x0 0 index 0x00 left 1 right 0 output 1 input 0 left  output 
+        retval = snd_hda_codec_read_check(codec, 0x02, 0, AC_VERB_GET_AMP_GAIN_MUTE, 0x00008000, 0x00000000, 319); // 0x002b8000
+//       snd_hda:     amp gain/mute 2 0x8000 index 0x00 left/right 0 right output/input 1 output
+//       snd_hda:     amp gain/mute 2 0x0000 mute 0 gain 0x0 0
+        snd_hda_codec_write(codec, 0x02, 0, AC_VERB_SET_AMP_GAIN_MUTE, 0x00009080); // 0x00239080
+//       snd_hda:     amp gain/mute 2 0x9080 mute 1 gain 0x0 0 index 0x00 left 0 right 1 output 1 input 0  right output 
+
+        retval = snd_hda_codec_read_check(codec, 0x10, 0, AC_VERB_GET_PIN_WIDGET_CONTROL, 0x00000000, 0x00000040, 321); // 0x010f0700
+        snd_hda_codec_write(codec, 0x10, 0, AC_VERB_SET_PIN_WIDGET_CONTROL, 0x00000040); // 0x01070740
+//       snd_hda:     16 ['AC_PINCTL_OUT_EN']
+
+
+        retval = snd_hda_codec_read_check(codec, 0x02, 0, AC_VERB_GET_AMP_GAIN_MUTE, 0x0000a000, 0x00000080, 324); // 0x002ba000
+//       snd_hda:     amp gain/mute 2 0xa000 index 0x00 left/right 1 left output/input 1 output
+//       snd_hda:     amp gain/mute 2 0x0080 mute 1 gain 0x0 0
+        snd_hda_codec_write(codec, 0x02, 0, AC_VERB_SET_AMP_GAIN_MUTE, 0x0000a000); // 0x0023a000
+//       snd_hda:     amp gain/mute 2 0xa000 mute 0 gain 0x0 0 index 0x00 left 1 right 0 output 1 input 0 left  output 
+        retval = snd_hda_codec_read_check(codec, 0x02, 0, AC_VERB_GET_AMP_GAIN_MUTE, 0x00008000, 0x00000080, 326); // 0x002b8000
+//       snd_hda:     amp gain/mute 2 0x8000 index 0x00 left/right 0 right output/input 1 output
+//       snd_hda:     amp gain/mute 2 0x0080 mute 1 gain 0x0 0
+        snd_hda_codec_write(codec, 0x02, 0, AC_VERB_SET_AMP_GAIN_MUTE, 0x00009000); // 0x00239000
+//       snd_hda:     amp gain/mute 2 0x9000 mute 0 gain 0x0 0 index 0x00 left 0 right 1 output 1 input 0  right output 
+
+
+        retval = snd_hda_codec_read_check(codec, 0x02, 0, AC_VERB_GET_AMP_GAIN_MUTE, 0x0000a000, 0x00000000, 329); // 0x002ba000
+//       snd_hda:     amp gain/mute 2 0xa000 index 0x00 left/right 1 left output/input 1 output
+//       snd_hda:     amp gain/mute 2 0x0000 mute 0 gain 0x0 0
+
+        snd_hda_codec_write(codec, 0x02, 0, AC_VERB_SET_AMP_GAIN_MUTE, 0x0000a000); // 0x0023a000
+//       snd_hda:     amp gain/mute 2 0xa000 mute 0 gain 0x0 0 index 0x00 left 1 right 0 output 1 input 0 left  output 
+
+
+        retval = snd_hda_codec_read_check(codec, 0x02, 0, AC_VERB_GET_AMP_GAIN_MUTE, 0x00008000, 0x00000000, 332); // 0x002b8000
+//       snd_hda:     amp gain/mute 2 0x8000 index 0x00 left/right 0 right output/input 1 output
+//       snd_hda:     amp gain/mute 2 0x0000 mute 0 gain 0x0 0
+
+        snd_hda_codec_write(codec, 0x02, 0, AC_VERB_SET_AMP_GAIN_MUTE, 0x00009000); // 0x00239000
+//       snd_hda:     amp gain/mute 2 0x9000 mute 0 gain 0x0 0 index 0x00 left 0 right 1 output 1 input 0  right output 
+
+
+        retval = snd_hda_codec_read_check(codec, 0x02, 0, AC_VERB_GET_AMP_GAIN_MUTE, 0x0000a000, 0x00000000, 335); // 0x002ba000
+//       snd_hda:     amp gain/mute 2 0xa000 index 0x00 left/right 1 left output/input 1 output
+//       snd_hda:     amp gain/mute 2 0x0000 mute 0 gain 0x0 0
+
+        snd_hda_codec_write(codec, 0x02, 0, AC_VERB_SET_AMP_GAIN_MUTE, 0x0000a07f); // 0x0023a07f
+//       snd_hda:     amp gain/mute 2 0xa07f mute 0 gain 0x7f 127 index 0x00 left 1 right 0 output 1 input 0 left  output 
+
+
+        retval = snd_hda_codec_read_check(codec, 0x02, 0, AC_VERB_GET_AMP_GAIN_MUTE, 0x00008000, 0x00000000, 338); // 0x002b8000
+//       snd_hda:     amp gain/mute 2 0x8000 index 0x00 left/right 0 right output/input 1 output
+//       snd_hda:     amp gain/mute 2 0x0000 mute 0 gain 0x0 0
+
+        snd_hda_codec_write(codec, 0x02, 0, AC_VERB_SET_AMP_GAIN_MUTE, 0x0000907f); // 0x0023907f
+//       snd_hda:     amp gain/mute 2 0x907f mute 0 gain 0x7f 127 index 0x00 left 0 right 1 output 1 input 0  right output 
+
+        retval = snd_hda_codec_read_check(codec, 0x06, 0, AC_VERB_GET_POWER_STATE, 0x00000000, 0x00000033, 340); // 0x006f0500
+        retval = snd_hda_codec_read_check(codec, 0x10, 0, AC_VERB_GET_POWER_STATE, 0x00000000, 0x00000000, 341); // 0x010f0500
+        retval = snd_hda_codec_read_check(codec, 0x02, 0, AC_VERB_GET_POWER_STATE, 0x00000000, 0x00000000, 342); // 0x002f0500
+
+	codec_dbg(codec, "headphones_a1534 end");
+	return 0;
+}
+*/
 
 static int setup_a1534 (struct hda_codec *codec) {
 	int retval;
-	printk("snd_hda_intel: setup_a1534 begin");
+	codec_dbg(codec, "setup_a1534 start");
 
 	retval = snd_hda_codec_read_check(codec, 0x00, 0, AC_VERB_PARAMETERS, 0x00000000, 0x10134208, 1); // 0x000f0000
 	retval = snd_hda_codec_read_check(codec, 0x00, 0, AC_VERB_PARAMETERS, 0x00000002, 0x00100401, 2); // 0x000f0002
@@ -137,7 +661,7 @@ static int setup_a1534 (struct hda_codec *codec) {
 	retval = snd_hda_codec_read_check(codec, 0x02, 0, AC_VERB_PARAMETERS, 0x00000009, 0x000d043d, 34); // 0x002f0009
 	snd_hda_codec_write(codec, 0x02, 0, AC_VERB_SET_POWER_STATE, 0x00000000); // 0x00270500
 	retval = snd_hda_codec_read_check(codec, 0x02, 0, AC_VERB_PARAMETERS, 0x0000000a, 0x001e07f0, 36); // 0x002f000a
-	retval = snd_hda_codec_read_check(codec, 0x02, 0, AC_VERB_PARAMETERS, 0x0000000b, 0x00000003, 37); // 0x002f000b
+	retval = snd_hda_codec_read_check(codec, 0x02, 0, AC_VERB_PARAMETERS, 0x0000000b, 0x00000003, 37); // 0x002f000bpatch_cirrus_a1534_setup.h
 	retval = snd_hda_codec_read_check(codec, 0x02, 0, AC_VERB_PARAMETERS, 0x00000012, 0x80017f7f, 38); // 0x002f0012
 	retval = snd_hda_codec_read_check(codec, 0x02, 0, AC_VERB_PARAMETERS, 0x0000000f, 0x80000009, 39); // 0x002f000f
 	retval = snd_hda_codec_read_check(codec, 0x02, 0, AC_VERB_GET_STRIPE_CONTROL, 0x00000000, 0x00100000, 40); // 0x002f2400
@@ -1063,13 +1587,13 @@ static int setup_a1534 (struct hda_codec *codec) {
 	snd_hda_codec_write(codec, 0x24, 0, AC_VERB_SET_PROC_STATE, 0x00000001); // 0x02470301
 	snd_hda_codec_write(codec, codec->core.afg, 0, AC_VERB_SET_POWER_STATE, 0x00000003); // 0x00170503
 
-	printk("snd_hda_intel: setup_a1534 end");
+	codec_dbg(codec, "setup_a1534 end");
 	return 0;
 }
 
 static int play_a1534 (struct hda_codec *codec) {
         int retval;
-        printk("snd_hda_intel: play_a1534 begin");
+	codec_dbg(codec, "play_a1534 begin");
 
 	retval = snd_hda_codec_read_check(codec, 0x00, 0, AC_VERB_PARAMETERS, 0x00000000, 0x10134208, 1); // 0x000f0000
 	snd_hda_codec_write(codec, codec->core.afg, 0, AC_VERB_SET_POWER_STATE, 0x00000000); // 0x00170500
@@ -1149,9 +1673,9 @@ static int play_a1534 (struct hda_codec *codec) {
 	snd_hda_codec_write(codec, codec->core.afg, 0, AC_VERB_SET_GPIO_DATA, 0x00000001); // 0x00171501
 	snd_hda_codec_write(codec, codec->core.afg, 0, AC_VERB_SET_GPIO_MASK, 0x00000033); // 0x00171633
 	retval = snd_hda_codec_read_check(codec, 0x06, 0, AC_VERB_GET_POWER_STATE, 0x00000000, 0x00000033, 137); // 0x006f0500
-	retval = snd_hda_codec_read_check(codec, 0x0a, 0, AC_VERB_GET_POWER_STATE, 0x00000000, 0x00000000, 138); // 0x00af0500
+	retval = snd_hda_codec_read_check(codec, 0x0a, 0, AC_VERB_GET_POWER_STATE, 0x00000000, 0x00000000, 138); // 0x0
 
-        printk("snd_hda_intel: play_a1534 end");
+	codec_dbg(codec, "play_a1534 end");
 	return 0;
 }
 
